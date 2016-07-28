@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "bitmap.h"
 #include "afxwin.h"
+#include "anchor_layout.h"
 
 // PageFinish dialog
 class PageFinish : public Page
@@ -19,10 +20,12 @@ public:
 
 protected:
 	Bitmap    icon_;
+	AnchorLayout layout_;
 
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
   virtual void DrawClient(CDC &dc, const CRect &rect);
   afx_msg void OnBnClickedButtonOk();
+  afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 
 	DECLARE_MESSAGE_MAP()
 

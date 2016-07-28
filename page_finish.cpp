@@ -32,6 +32,7 @@ void PageFinish::DoDataExchange(CDataExchange* pDX) {
 BEGIN_MESSAGE_MAP(PageFinish, Page)
   ON_WM_SIZE()
   ON_BN_CLICKED(IDC_BUTTON_OK, &PageFinish::OnBnClickedButtonOk)
+  ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -47,6 +48,14 @@ BOOL PageFinish::OnInitDialog() {
   SetHeaderButtons(&buttons, 1);
   ShowHeader(true);
 
+  GetDlgItem(IDC_EDIT_AGING_TIME)->SetWindowText(_T("1"));
+  GetDlgItem(IDC_EDIT_AGING_TIME)->SetFocus();
+
+  layout_.Init(m_hWnd);
+  layout_.AddDlgItem(IDC_STATIC_AGING_TIME, AnchorLayout::TOP_CENTER, AnchorLayout::TOP_CENTER);
+  layout_.AddDlgItem(IDC_EDIT_AGING_TIME, AnchorLayout::TOP_CENTER, AnchorLayout::TOP_CENTER);
+  layout_.AddDlgItem(IDC_STATIC_AGING_TIME_UNIT, AnchorLayout::TOP_CENTER, AnchorLayout::TOP_CENTER);
+
   return TRUE;  // return TRUE unless you set the focus to a control
   // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -55,6 +64,9 @@ void PageFinish::OnSize(UINT nType, int cx, int cy) {
   Page::OnSize(nType, cx, cy);
 
   // TODO: Add your message handler code here
+  if (::IsWindow(m_hWnd)) {
+	  layout_.RecalcLayout();
+  }
 }
 
 void PageFinish::OnBnClickedButtonOk() 
@@ -89,4 +101,18 @@ void PageFinish::DrawClient(CDC &dc, const CRect &rect) {
   dc.SetBkMode(TRANSPARENT);
   dc.TextOut(x + 48 + icon_.GetWidth() + 16, rect.top + (rect.Height() - textSize.cy) / 2, text);
   dc.SelectObject(oldFont);
+}
+
+HBRUSH PageFinish::OnCtlColor(CDC *pDC, CWnd *pWnd, UINT nCtlColor)
+{
+	COLORREF backColor = RGB(255, 255, 255); // 白色
+	pDC->SetBkMode(TRANSPARENT); //设置控件背景透明
+
+	// 判断下是不是你要改的控件ID 
+	if (pWnd->GetDlgCtrlID() == IDC_STATIC_AGING_TIME || pWnd->GetDlgCtrlID() == IDC_STATIC_AGING_TIME_UNIT)
+	{
+		pDC->SetBkColor(backColor);
+	}
+
+	return CreateSolidBrush(backColor); //创建背景刷子
 }

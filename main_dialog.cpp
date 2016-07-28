@@ -198,8 +198,7 @@ BOOL MainDialog::OnInitDialog()
   DeviceProxy::GetInstance()->AddObserver(_T("MainDialog::OnDeviceConnected"), m_hWnd, DeviceProxy::SUBJECT_CONNECTED, WM_DEVICE_CONNECTED);
   DeviceProxy::GetInstance()->AddObserver(_T("MainDialog::OnDeviceDisconnected"), m_hWnd, DeviceProxy::SUBJECT_DISCONNECTED, WM_DEVICE_DISCONNECTED);
 
-  //ShowPage(IDD_PAGE_CONNECT);
-  ShowPage(IDD_PAGE_FINISH);
+  ShowPage(IDD_PAGE_CONNECT);
 
   // 如果是在线登录，那么每30分钟下载一次可变配置文件
   if (!WorkingParameters::GetInstance()->IsOffline())
